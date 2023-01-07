@@ -30,12 +30,19 @@ server.get("/tweets", (req, res) => {
 server.post("/tweets", (req, res) => {
     const { username, tweet } = req.body
 
-    const newTweet = users.find(u => u.username === username)
+    const user = users.find(u => u.username === username)
 
-    if(!newTweet){
+    if(!user){
         return res.send("UNAUTHORIZED")
     }
     
+    const newTweet = {
+        username,
+        tweet,
+        avatar: user.avatar
+    }
+    tweets.push(newTweet)
+
     res.send("OK")
 })
 
