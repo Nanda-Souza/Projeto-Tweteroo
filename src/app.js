@@ -7,24 +7,17 @@ const server = express()
 server.use(cors())
 server.use(express.json());
 
-const users = [
-    {
-        username: "lavitz",
-        avatar: "https://static.wikia.nocookie.net/legendofdragoon/images/2/25/Lavits.jpg"   
-    }]
-const tweets = [
-    {
-        username: "lavitz",
-        avatar: "https://static.wikia.nocookie.net/legendofdragoon/images/2/25/Lavits.jpg",
-        tweet: "eitaa"   
-    }]
+const users = []
+const tweets = []
 
 server.get("/status", (req, res) => {
     res.send("Local Server is Running")
 })
 
 server.get("/tweets", (req, res) => {
-    res.send(tweets)
+
+    const recentTweets = tweets.slice(-10).reverse();
+    res.send(recentTweets)
 })
 
 server.post("/tweets", (req, res) => {
@@ -48,9 +41,15 @@ server.post("/tweets", (req, res) => {
 
 
 server.post("/sign-up", (req, res) => {
-    const newUser = req.body
+    const { username, avatar } = req.body
+
+    const newUser = {
+        username,
+        avatar
+    }
     users.push(newUser)
-      
+    
+    //res.send(users)
     res.send("OK")
   })
 
